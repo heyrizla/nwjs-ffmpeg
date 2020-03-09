@@ -1,14 +1,28 @@
 version: 2
 jobs:
   build:
-    docker:
-      - image: circleci/golang:1.9
-
-    working_directory: /go/src/github.com/heyrizla/nwjs-ffmpeg
+    machine:
+      image: ubuntu-1604:201903-01
+    resource_class: large
+    environment:
+      GO_VERSION: 1.13.1
+      GOPATH: /home/circleci/go
+      GO111MODULE: "on"
+      PATH: /bin:/usr/bin:/usr/local/go/bin:/home/circleci/go/bin
     steps:
       - checkout
+      - run:
+          name: Install Golang
+          command: |
+            curl -OL https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz
+            tar -xf go${GO_VERSION}.linux-amd64.tar.gz
+            sudo rm -rf /usr/local/go
+            sudo mv go /usr/local
+            mkdir -p "$HOME/go/bin"
+            rm -rf go${GO_VERSION}.linux-amd64.tar.gz
+            go version
       - run: sudo apt-get update
-      - run: sudo apt-get install lsb-core file g++-arm-linux-gnueabihf clang nasm
+      - run: sudo apt-get install lsb-core file g++-arm-linux-gnueabihf clang nasm lld-4.0
       - run: go build main.go
       - run: ./main
 
