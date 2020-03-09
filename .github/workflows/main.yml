@@ -32,8 +32,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install deps
         run: |
-          brew install opus
-          brew install yasm
+          brew install opus yasm
       - name: build and run
         run: |
           go build main.go

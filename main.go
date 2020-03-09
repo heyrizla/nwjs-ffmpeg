@@ -64,8 +64,7 @@ func MoveDirectory(source, dest string) {
 		command = "move"
 	}
 
-	cmd = exec.Command(command, source, dest)
-	cmd.Dir = filepath.Join(chromiumDir, "src")
+	cmd := exec.Command(command, source, dest)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Run()
