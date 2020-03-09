@@ -1,0 +1,15 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.9
+
+    working_directory: /go/src/github.com/heyrizla/nwjs-ffmpeg
+    steps:
+      - checkout
+
+      - run: go build main.go
+      - run: ./main
+
+      - store_artifacts:
+          path: dist/artifacts/
