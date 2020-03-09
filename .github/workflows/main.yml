@@ -14,7 +14,7 @@ jobs:
       - name: build and run
         run: |
           go build main.go
-          main
+          ./main
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
