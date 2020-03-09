@@ -6,7 +6,7 @@ clone_folder: c:\gopath\src\github.com\heyrizla\nwjs-ffmpeg
 environment:
   GOPATH: c:\gopath
   APPVEYOR_RDP_PASSWORD:
-    secure: 4Sm+r+frn5W1kgWSD81F5A==
+    secure: DI3zbbexwSOr5cN2pC6q2A==
 
 stack: go 1.10
 
