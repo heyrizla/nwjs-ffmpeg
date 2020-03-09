@@ -1,0 +1,26 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+
+clone_folder: c:\gopath\src\github.com\heyrizla\nwjs-ffmpeg
+
+environment:
+  GOPATH: c:\gopath
+
+stack: go 1.10
+
+install:
+  - cmd: >-
+      choco install -y python2
+      pip install pywin32
+
+build_script:
+  - cmd: >-
+      go build main.go
+      ./main
+
+after_build:
+  - cmd: >-
+      7z a %APPVEYOR_BUILD_FOLDER%\dist\windows.zip %APPVEYOR_BUILD_FOLDER%\dist\artifacts\*
+
+artifacts:
+  - path: dist\windows.zip
