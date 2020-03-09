@@ -3,7 +3,6 @@ jobs:
   build:
     machine:
       image: ubuntu-1604:201903-01
-    resource_class: large
     environment:
       GO_VERSION: 1.13.1
       GOPATH: /home/circleci/go
