@@ -19,7 +19,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
-          name: ${{ matrix.os }}
+          name: "windows"
           path: dist/artifacts
 
   build-macos:
@@ -37,7 +37,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
-          name: ${{ matrix.os }}
+          name: "macos"
           path: dist/artifacts
 
   build-linux:
@@ -55,5 +55,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@master
         with:
-          name: ${{ matrix.os }}
+          name: "linux"
           path: dist/artifacts
