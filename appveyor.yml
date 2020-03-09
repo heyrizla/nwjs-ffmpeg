@@ -13,10 +13,8 @@ install:
       pip install pywin32
 
 build_script:
-  - cmd: >-
-      go build main.go
-
-      ./main.exe
+  - go build main.go
+  - ps: .\main.exe
 
 after_build:
   - cmd: >-
