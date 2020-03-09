@@ -16,7 +16,7 @@ build_script:
   - cmd: >-
       go build main.go
 
-      ./main
+      ./main.exe
 
 after_build:
   - cmd: >-
