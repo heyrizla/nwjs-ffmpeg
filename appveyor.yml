@@ -25,5 +25,8 @@ after_build:
   - cmd: >-
       7z a %APPVEYOR_BUILD_FOLDER%\dist\windows.zip %APPVEYOR_BUILD_FOLDER%\dist\artifacts\*
 
+on_finish:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+
 artifacts:
   - path: dist\windows.zip
