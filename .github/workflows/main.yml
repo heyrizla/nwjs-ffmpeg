@@ -23,21 +23,3 @@ jobs:
         with:
           name: "macos"
           path: dist/artifacts
-
-  build-linux:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Use GO 1.13
-        uses: actions/setup-go@v1
-        with:
-          go-version: "1.13.6"
-      - uses: actions/checkout@v2
-      - name: build and run
-        run: |
-          go build main.go
-          ./main
-      - name: Upload artifacts
-        uses: actions/upload-artifact@master
-        with:
-          name: "linux"
-          path: dist/artifacts
