@@ -5,8 +5,13 @@ clone_folder: c:\gopath\src\github.com\heyrizla\nwjs-ffmpeg
 
 environment:
   GOPATH: c:\gopath
+  APPVEYOR_RDP_PASSWORD:
+    secure: 4Sm+r+frn5W1kgWSD81F5A==
 
 stack: go 1.10
+
+init:
+  - ps: iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
 
 install:
   - cmd: >-
