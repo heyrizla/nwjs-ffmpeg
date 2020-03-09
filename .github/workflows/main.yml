@@ -30,6 +30,10 @@ jobs:
         with:
           go-version: "1.13.6"
       - uses: actions/checkout@v2
+      - name: Install deps
+        run: |
+          brew install opus
+          brew install yasm
       - name: build and run
         run: |
           go build main.go

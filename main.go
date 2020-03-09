@@ -58,6 +58,20 @@ func GetFFMPEGArch() (arch string) {
 	return
 }
 
+func MoveDirectory(source, dest string) {
+	command := "mv"
+	if runtime.GOOS == "windows" {
+		command = "move"
+	}
+
+	cmd = exec.Command(command, source, dest)
+	cmd.Dir = filepath.Join(chromiumDir, "src")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Run()
+	return
+}
+
 func main() {
 
 	rootDir, err := filepath.Abs(filepath.Dir(os.Args[0]))
@@ -85,11 +99,14 @@ func main() {
 	ffmpegRoot := filepath.Join(chromiumDir, "src", "third_party", "ffmpeg")
 
 	patchSrc := filepath.Join(rootDir, "ffmpeg.patch")
-	patchDst := filepath.Join(ffmpegRoot, "chromium", "scripts", "ffmpeg.patch")
+
+	ffmpegScriptsRoot := filepath.Join(ffmpegRoot, "chromium", "scripts")
+	patchDst := filepath.Join(ffmpegScriptsRoot, "ffmpeg.patch")
 
 	ffmpegGeneratedGNI := filepath.Join(ffmpegRoot, "ffmpeg_generated.gni")
 
 	chromiumVersion := "80.0.3987.132"
+	ffmpegOutput := fmt.Sprintf("build.%s.%s", GetFFMPEGArch(), GetFFMPEGOS())
 
 	if _, err := os.Stat(buildDir); !os.IsNotExist(err) {
 		fmt.Println("Cleaning....")
@@ -143,7 +160,7 @@ func main() {
 	InstallDeps(chromiumDir)
 
 	// sync gclient
-	cmd = exec.Command("gclient", "sync", "--with_branch_heads")
+	cmd = exec.Command("gclient", "sync", "--with_branch_heads", "--no-history")
 	cmd.Dir = filepath.Join(chromiumDir, "src")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -175,22 +192,6 @@ func main() {
 	cmd.Stderr = os.Stderr
 	cmd.Run()
 
-	// generate GN
-	fmt.Println("Running generate_gn.py")
-	cmd = exec.Command("./generate_gn.py")
-	cmd.Dir = filepath.Join(ffmpegRoot, "chromium", "scripts")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	cmd.Run()
-
-	// copy config
-	fmt.Println("Running copy_config.sh")
-	cmd = exec.Command("./copy_config.sh")
-	cmd.Dir = filepath.Join(ffmpegRoot, "chromium", "scripts")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	cmd.Run()
-
 	generatedGNI, err := ioutil.ReadFile(ffmpegGeneratedGNI)
 	if err != nil {
 		panic(err)
@@ -201,4 +202,6 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	MoveDirectory(filepath.Join(ffmpegScriptsRoot, ffmpegOutput), filepath.Join(artifactsDir))
 }
