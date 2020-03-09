@@ -1,0 +1,17 @@
+diff --git a/chromium/scripts/build_ffmpeg.py b/chromium/scripts/build_ffmpeg.py
+index 23d5c0f573..5bcd456d0e 100755
+--- a/chromium/scripts/build_ffmpeg.py
++++ b/chromium/scripts/build_ffmpeg.py
+@@ -874,9 +874,9 @@ def ConfigureAndBuild(target_arch, target_os, host_os, host_arch, parallel_jobs,
+
+   # Google Chrome & ChromeOS specific configuration.
+   configure_flags['Chrome'].extend([
+-      '--enable-decoder=aac,h264',
+-      '--enable-demuxer=aac',
+-      '--enable-parser=aac,h264',
++      '--enable-decoder=aac,h264,mpeg4,h263,hevc,ac3,eac3',
++      '--enable-demuxer=aac,hevc,ac3,mpeg4video,avi,eac3,h263,amr',
++      '--enable-parser=aac,h264,ac3,eac3,hebc,h263,mpeg4video,amrnb,amrwb',
+   ])
+
+   # Google ChromeOS specific configuration.
