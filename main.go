@@ -177,7 +177,19 @@ func main() {
 		panic(err)
 	}
 
+	cmd = exec.Command("chmod", "755", "ffmpeg.patch")
+	cmd.Dir = filepath.Join(ffmpegRoot, "chromium", "scripts")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Run()
+
 	cmd = exec.Command("git", "apply", "--ignore-space-change", "--ignore-whitespace", "ffmpeg.patch")
+	cmd.Dir = filepath.Join(ffmpegRoot, "chromium", "scripts")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Run()
+
+	cmd = exec.Command("chmod", "755", "build_ffmpeg.py")
 	cmd.Dir = filepath.Join(ffmpegRoot, "chromium", "scripts")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -185,7 +197,7 @@ func main() {
 
 	// build ffmpeg
 	fmt.Println("Running build_ffmpeg.py")
-	cmd = exec.Command("./build_ffmpeg.py", GetFFMPEGOS(), GetFFMPEGArch())
+	cmd = exec.Command("python", "build_ffmpeg.py", GetFFMPEGOS(), GetFFMPEGArch())
 	cmd.Dir = filepath.Join(ffmpegRoot, "chromium", "scripts")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
