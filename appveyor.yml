@@ -10,7 +10,6 @@ stack: go 1.10
 
 install:
   - cmd: >-
-      choco install -y python2
       pip install pywin32
 
 build_script:
